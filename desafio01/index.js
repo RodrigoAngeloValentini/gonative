@@ -1,6 +1,4 @@
 import { AppRegistry } from 'react-native';
-import App from './App';
-
-import './src/config/ReactotronConfig';
+import App from './src';
 
 AppRegistry.registerComponent('desafio01', () => App);

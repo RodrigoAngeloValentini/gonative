@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, StyleSheet } from 'react-native';
-import Post from './src/components/Post';
+import Post from './components/Post';
+
+import './config/ReactotronConfig';
+import './config/DevToolsConfig';
 
 export default class App extends Component {
   constructor(props) {
@@ -8,18 +11,21 @@ export default class App extends Component {
     this.state = {
       posts: [
         {
+          id: 1,
           title: 'Aprendendo React Native',
           author: 'Rodrigo Angelo Valentini',
           description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
         },
         {
+          id: 2,
           title: 'Aprendendo React Native',
           author: 'Rodrigo Angelo Valentini',
           description:
             'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
         },
         {
+          id: 3,
           title: 'Aprendendo React Native',
           author: 'Rodrigo Angelo Valentini',
           description:
@@ -29,12 +35,6 @@ export default class App extends Component {
     };
   }
 
-  componentDidMount() {
-    console.log(this.state.posts);
-  }
-
-  renderPosts = () => {};
-
   render() {
     return (
       <View style={styles.body}>
@@ -42,11 +42,10 @@ export default class App extends Component {
           <Text style={styles.title}>GoNative App</Text>
         </View>
         <ScrollView style={styles.container}>
-          {this.state.posts.map((post, index) => {
-            console.log(post.title);
+          {this.state.posts.map(post => {
             return (
               <Post
-                key={index}
+                key={post.id}
                 title={post.title}
                 author={post.author}
                 description={post.description}
