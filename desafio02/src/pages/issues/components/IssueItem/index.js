@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Linking } from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { colors } from 'styles';
@@ -8,7 +8,12 @@ import { withNavigation } from 'react-navigation';
 import styles from './styles';
 
 const IssueItem = ({ issue, navigation }) => (
-  <TouchableOpacity style={styles.container}>
+  <TouchableOpacity
+    style={styles.container}
+    onPress={() => {
+      Linking.openURL(issue.url);
+    }}
+  >
     <Image style={styles.avatar} source={{ uri: issue.avatar_url }} />
     <View style={styles.containerInfo}>
       <Text style={styles.title} numberOfLines={1}>

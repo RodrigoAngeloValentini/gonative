@@ -24,6 +24,12 @@ class Issues extends Component {
     this.getIssues();
   }
 
+  getFilterFromStorage = () => {
+    AsyncStorage.getItem('@desafio2:filter').then((result) => {
+      this.setState({ filterType: result || 'all' });
+    });
+  };
+
   refreshIssues = () => {
     this.setState({ refreshing: true });
     this.getIssues();
@@ -37,7 +43,6 @@ class Issues extends Component {
     const response = await api.get(`/repos/${login}/${name}/issues?state=${filterType}`);
 
     const result = response.data;
-    console.log(result);
 
     let issues = [];
     if (Array.isArray(result)) {
@@ -54,12 +59,6 @@ class Issues extends Component {
       issues,
       loading: false,
       refreshing: false,
-    });
-  };
-
-  getFilterFromStorage = () => {
-    AsyncStorage.getItem('@desafio2:filter').then((result) => {
-      this.setState({ filterType: result || 'all' });
     });
   };
 
