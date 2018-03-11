@@ -26,7 +26,7 @@ export default class Repositories extends Component {
     repositoryName: '',
   };
 
-  componentDidMount = () => {
+  componentDidMount(){
     this.getRepositoriesFromStorage();
   };
 
