@@ -1,0 +1,42 @@
+{
+  "/users/RodrigoAngeloValentini": {
+    "login": "RodrigoAngeloValentini",
+    "id": 9674574,
+    "avatar_url": "https://avatars1.githubusercontent.com/u/9674574?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/RodrigoAngeloValentini",
+    "html_url": "https://github.com/RodrigoAngeloValentini",
+    "followers_url":
+      "https://api.github.com/users/RodrigoAngeloValentini/followers",
+    "following_url":
+      "https://api.github.com/users/RodrigoAngeloValentini/following{/other_user}",
+    "gists_url":
+      "https://api.github.com/users/RodrigoAngeloValentini/gists{/gist_id}",
+    "starred_url":
+      "https://api.github.com/users/RodrigoAngeloValentini/starred{/owner}{/repo}",
+    "subscriptions_url":
+      "https://api.github.com/users/RodrigoAngeloValentini/subscriptions",
+    "organizations_url":
+      "https://api.github.com/users/RodrigoAngeloValentini/orgs",
+    "repos_url": "https://api.github.com/users/RodrigoAngeloValentini/repos",
+    "events_url":
+      "https://api.github.com/users/RodrigoAngeloValentini/events{/privacy}",
+    "received_events_url":
+      "https://api.github.com/users/RodrigoAngeloValentini/received_events",
+    "type": "User",
+    "site_admin": false,
+    "name": "Rodrigo Angelo Valentini",
+    "company": null,
+    "blog": "https://www.linkedin.com/in/rodrigo-angelo-valentini-b8591058",
+    "location": "Chapecó, Santa Catarina, Brasil",
+    "email": null,
+    "hireable": null,
+    "bio": null,
+    "public_repos": 55,
+    "public_gists": 0,
+    "followers": 13,
+    "following": 37,
+    "created_at": "2014-11-11T10:45:11Z",
+    "updated_at": "2018-01-22T23:27:14Z"
+  }
+}
