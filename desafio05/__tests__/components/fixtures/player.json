@@ -1,0 +1,8 @@
+{
+  "/player/currentSong": {
+    "id": 0,
+    "title": "Papercut",
+    "author": "Linkin Park",
+    "file": "https://s3-sa-east-1.amazonaws.com/gonative/1.mp3"
+  }
+}
