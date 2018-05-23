@@ -11,7 +11,7 @@ class Identification extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Identification</Text>
+        <Text style={styles.title}>SCHEDULER</Text>
       </View>
     );
   }
