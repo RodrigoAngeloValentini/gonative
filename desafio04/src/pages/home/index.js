@@ -18,7 +18,15 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    this.props.getProductsRequest(1);
+    const { categoryActiveId } = this.props;
+    this.props.getProductsRequest(categoryActiveId);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { categoryActiveId } = this.props;
+    if (categoryActiveId !== prevProps.categoryActiveId) {
+      this.props.getProductsRequest(categoryActiveId);
+    }
   }
 
   renderProducts = () => {
@@ -68,9 +76,11 @@ Home.propTypes = {
     image: PropTypes.string,
     price: PropTypes.number,
   })),
+  categoryActiveId: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
+  categoryActiveId: state.categories.categoryActiveId,
   products: state.products.products,
   loading: state.products.loading,
 });

@@ -8,7 +8,6 @@ const CategoryTitle = props => (
   <View style={styles.categoryBox}>
     <TouchableOpacity
       onPress={() => {
-        console.log(props.category.id);
         props.onPress();
       }}
     >

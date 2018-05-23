@@ -14,7 +14,7 @@ import styles from './styles';
 
 class HomeDetail extends Component {
   static navigationOptions = {
-    title: 'Name here',
+    title: '',
   };
 
   componentDidMount() {
