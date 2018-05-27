@@ -1,26 +1,39 @@
 import { StyleSheet } from 'react-native';
-
-import { colors } from 'styles';
+import { colors, fonts, metrics } from 'styles';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.background,
   },
-  totalContainer: {
-    height: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.white,
-    marginBottom: 1,
+  scrollContainer: {
+    flex: 1,
   },
-  title: {
-    fontSize: 12,
+
+  scroll: {
+    paddingHorizontal: metrics.basePadding,
+    paddingTop: metrics.basePadding,
+  },
+
+  space: {
+    height: metrics.baseNavs,
+    width: '100%',
+    backgroundColor: colors.alfa,
+  },
+
+  errorMsg: {
+    padding: metrics.basePadding,
+    alignSelf: 'center',
+    alignContent: 'center',
     color: colors.gray,
+    fontWeight: 'bold',
+    fontSize: fonts.small,
   },
-  price: {
-    fontSize: 16,
-    color: colors.green,
+
+  amountContainer: {
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
   },
 });
 

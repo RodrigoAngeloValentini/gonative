@@ -1,11 +1,10 @@
 import { NavigationActions } from 'react-navigation';
-import Navigator from './routes';
+import Routes from './routes';
 
-const initialState = Navigator.router.getStateForAction(NavigationActions.init());
+const initialState = Routes.router.getStateForAction(NavigationActions.init());
 
 const navReducer = (state = initialState, action) => {
-  const nextState = Navigator.router.getStateForAction(action, state);
-
+  const nextState = Routes.router.getStateForAction(action, state);
   return nextState || state;
 };
 

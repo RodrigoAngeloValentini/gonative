@@ -1,90 +1,91 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+
+import { View, Animated } from 'react-native';
+
+import Categories from 'pages/home/components/categories';
+import Products from 'pages/home/components/products';
+
 import { bindActionCreators } from 'redux';
-import { Creators as ProductsActions } from 'store/ducks/products';
-import { View, ScrollView, StatusBar, ActivityIndicator } from 'react-native';
-
-import { colors } from 'styles';
-
-import CategoryBar from './components/CategoryBar';
-import ProductItem from './components/ProductItem';
+import { connect } from 'react-redux';
+import CategoriesActions from 'redux/ducks/categories';
+import ProductsActions from 'redux/ducks/products';
 
 import styles from './styles';
 
-class Home extends Component {
-  static navigationOptions = {
-    title: 'GoCommerce',
+class Main extends Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      state: PropTypes.shape({
+        routeName: PropTypes.string.isRequired,
+        key: PropTypes.string.isRequired,
+      }),
+      dispatch: PropTypes.func.isRequired,
+      goBack: PropTypes.func.isRequired,
+      navigate: PropTypes.func.isRequired,
+      setParams: PropTypes.func.isRequired,
+    }).isRequired,
+  };
+
+  state = {
+    opacity: new Animated.Value(0),
+    offset: new Animated.ValueXY({ x: 0, y: 25 }),
+    offsetMenu: new Animated.ValueXY({ x: 0, y: -100 }),
   };
 
   componentDidMount() {
-    const { categoryActiveId } = this.props;
-    this.props.getProductsRequest(categoryActiveId);
+    Animated.sequence([
+      Animated.timing(this.state.offsetMenu.y, {
+        toValue: 0,
+        duration: 1000,
+      }),
+
+      Animated.delay(20),
+
+      Animated.parallel([
+        Animated.timing(this.state.offset.y, {
+          toValue: 0,
+          duration: 350,
+        }),
+
+        Animated.timing(this.state.opacity, {
+          toValue: 1,
+          duration: 350,
+        }),
+      ]),
+    ]).start();
   }
-
-  componentDidUpdate(prevProps) {
-    const { categoryActiveId } = this.props;
-    if (categoryActiveId !== prevProps.categoryActiveId) {
-      this.props.getProductsRequest(categoryActiveId);
-    }
-  }
-
-  renderProducts = () => {
-    const { products } = this.props;
-
-    return products.map(product => <ProductItem product={product} key={product.id} />);
-  };
-
-  renderLoading = () => (
-    <ActivityIndicator style={styles.loading} color={colors.red} size="large" />
-  );
-
-  renderContent = () => {
-    const { loading } = this.props;
-    if (!loading) {
-      return (
-        <ScrollView style={styles.scroolView}>
-          <View style={styles.productsContainer}>{this.renderProducts()}</View>
-        </ScrollView>
-      );
-    }
-    return this.renderLoading();
-  };
 
   render() {
     return (
-      <View style={styles.container}>
-        <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
-        <CategoryBar />
-        <View style={styles.contentContainer}>{this.renderContent()}</View>
+      <View style={[styles.container]}>
+        <Animated.View style={[{ transform: [...this.state.offsetMenu.getTranslateTransform()] }]}>
+          <Categories />
+        </Animated.View>
+
+        <Animated.View
+          style={[
+            { transform: [...this.state.offset.getTranslateTransform()] },
+            { opacity: this.state.opacity },
+            styles.container,
+          ]}
+        >
+          <Products navigation={this.props.navigation} />
+        </Animated.View>
       </View>
     );
   }
 }
 
-Home.defaultProps = {
-  products: [],
-};
-
-Home.propTypes = {
-  getProductsRequest: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  products: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    brand: PropTypes.string,
-    image: PropTypes.string,
-    price: PropTypes.number,
-  })),
-  categoryActiveId: PropTypes.number.isRequired,
-};
-
 const mapStateToProps = state => ({
-  categoryActiveId: state.categories.categoryActiveId,
-  products: state.products.products,
-  loading: state.products.loading,
+  categories: state.categories,
+  products: state.products,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(ProductsActions, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({
+    categoriesRequest: () => dispatch(CategoriesActions.categoriesRequest()),
+    productsRequest: id => dispatch(ProductsActions.productsRequest(id)),
+  });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

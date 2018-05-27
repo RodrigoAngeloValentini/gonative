@@ -1,88 +1,64 @@
-import React from 'react';
 import { StackNavigator, TabNavigator } from 'react-navigation';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { colors } from 'styles';
 
+import Footer from 'navigation/components/footer';
 import Home from 'pages/home';
-import HomeDetail from 'pages/homeDetail';
 import Cart from 'pages/cart';
+import Product from 'pages/product';
 
-const stackNavigatorOptions = {
-  headerStyle: {
-    backgroundColor: colors.white,
-    height: 54,
+const homeRoutes = StackNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      title: 'GoCommerce',
+      headerTitleStyle: {
+        color: '#FF9696',
+      },
+      headerStyle: {
+        backgroundColor: '#FFFF',
+      },
+    },
   },
-  headerTintColor: colors.red,
-  headerBackTitle: null,
-  headerTitleStyle: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    justifyContent: 'center',
-    alignSelf: 'center',
+  Product: {
+    screen: Product,
+    navigationOptions: {
+      title: 'Produto',
+      headerTitleStyle: {
+        color: '#FF9696',
+      },
+      headerStyle: {
+        backgroundColor: '#FFFF',
+      },
+    },
   },
-};
+});
 
-const homeNav = StackNavigator(
-  {
-    Home: { screen: Home },
-    HomeDetail: { screen: HomeDetail },
+const cartRoutes = StackNavigator({
+  Cart: {
+    screen: Cart,
+    navigationOptions: {
+      title: 'Carrinho',
+      headerTitleStyle: {
+        color: '#FF9696',
+      },
+      headerStyle: {
+        backgroundColor: '#FFFF',
+      },
+    },
   },
-  {
-    navigationOptions: stackNavigatorOptions,
-  },
-);
-
-const cartNav = StackNavigator(
-  {
-    Cart: { screen: Cart },
-  },
-  {
-    navigationOptions: stackNavigatorOptions,
-  },
-);
+  Product: { screen: Product },
+});
 
 const Routes = TabNavigator(
   {
-    Home: {
-      screen: homeNav,
-    },
-    Cart: {
-      screen: cartNav,
-    },
+    Home: { screen: homeRoutes },
+    Cart: { screen: cartRoutes },
   },
   {
-    navigationOptions: ({ navigation }) => ({
-      // eslint-disable-next-line
-      tabBarIcon: ({ focused, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        if (routeName === 'Home') {
-          iconName = 'ios-home';
-        } else if (routeName === 'Cart') {
-          iconName = 'ios-cart';
-        }
-
-        return <Ionicons name={iconName} size={30} color={tintColor} />;
-      },
-    }),
-    tabBarOptions: {
-      activeTintColor: colors.red,
-      inactiveTintColor: colors.gray,
-      style: {
-        backgroundColor: colors.white,
-      },
-      showIcon: true,
-      showLabel: false,
-      tabStyle: {
-        height: 54,
-      },
-      indicatorStyle: {
-        backgroundColor: colors.red,
-      },
-    },
-    tabBarPosition: 'bottom',
-    animationEnabled: false,
     swipeEnabled: false,
+    animationEnabled: false,
+    lazy: false,
+    tabBarPosition: 'bottom',
+    tabBarComponent: Footer,
   },
 );
 

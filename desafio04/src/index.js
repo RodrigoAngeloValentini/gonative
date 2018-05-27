@@ -1,14 +1,16 @@
+import 'config/ReactotronConfig';
 import React from 'react';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/es/integration/react';
+import { store, persistor } from 'redux/store';
+
 import Routes from 'navigation';
-
-import 'config/ReactotronConfig';
-
-import store from 'store';
 
 const App = () => (
   <Provider store={store}>
-    <Routes />
+    <PersistGate persistor={persistor}>
+      <Routes />
+    </PersistGate>
   </Provider>
 );
 

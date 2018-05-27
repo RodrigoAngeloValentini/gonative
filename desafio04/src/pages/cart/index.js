@@ -1,73 +1,48 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import PropTypes from 'prop-types';
 
-import CartItem from './components/CartItem';
+import { View, ScrollView, Text } from 'react-native';
+
+import CartCard from 'pages/cart/components/card';
+import CartAmount from 'pages/cart/components/amountCard';
+
+import { connect } from 'react-redux';
 
 import styles from './styles';
 
 class Cart extends Component {
-  static navigationOptions = {
-    title: 'Carrinho',
+  static propTypes = {
+    cart: PropTypes.shape({
+      products: PropTypes.arrayOf(PropTypes.shape).isRequired,
+    }).isRequired,
   };
 
-  state = {
-    cart: [
-      {
-        id: 1,
-        name: 'Camiseta Hyperas Preta',
-        brand: 'Quiksilver',
-        image:
-          'https://t-static.dafiti.com.br/czCvp3wBNPfehf7omYZfJacnxPY=/fit-in/427x620/dafitistatic-a.akamaihd.net%2fp%2fquiksilver-camiseta-quiksilver-hyperas-preta-8710-7136243-1-product.jpg',
-        price: 49.99,
-      },
-      {
-        id: 2,
-        name: 'Camiseta Hyperas Preta',
-        brand: 'Quiksilver',
-        image:
-          'https://t-static.dafiti.com.br/czCvp3wBNPfehf7omYZfJacnxPY=/fit-in/427x620/dafitistatic-a.akamaihd.net%2fp%2fquiksilver-camiseta-quiksilver-hyperas-preta-8710-7136243-1-product.jpg',
-        price: 49.99,
-      },
-      {
-        id: 3,
-        name: 'Camiseta Hyperas Preta',
-        brand: 'Quiksilver',
-        image:
-          'https://t-static.dafiti.com.br/czCvp3wBNPfehf7omYZfJacnxPY=/fit-in/427x620/dafitistatic-a.akamaihd.net%2fp%2fquiksilver-camiseta-quiksilver-hyperas-preta-8710-7136243-1-product.jpg',
-        price: 49.99,
-      },
-      {
-        id: 4,
-        name: 'Camiseta Hyperas Preta',
-        brand: 'Quiksilver',
-        image:
-          'https://t-static.dafiti.com.br/czCvp3wBNPfehf7omYZfJacnxPY=/fit-in/427x620/dafitistatic-a.akamaihd.net%2fp%2fquiksilver-camiseta-quiksilver-hyperas-preta-8710-7136243-1-product.jpg',
-        price: 49.99,
-      },
-    ],
-  };
-
-  componentDidMount() {}
-
-  renderCartItems = () => (
-    <FlatList
-      data={this.state.cart}
-      keyExtractor={item => String(item.id)}
-      renderItem={({ item }) => <CartItem product={item} />}
-    />
+  renderScroll = products => (
+    <View style={styles.scrollContainer}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
+        {products.map((product, indice) => (
+          <CartCard key={product.cartProductId} product={product} indice={indice} />
+        ))}
+        <View style={styles.space} />
+      </ScrollView>
+      <CartAmount style={styles.amountContainer} />
+    </View>
   );
 
+  renderOrFail = products =>
+    (this.props.cart.products.length ? (
+      this.renderScroll(products)
+    ) : (
+      <Text style={styles.errorMsg}>Carrinho Vazio</Text>
+    ));
+
   render() {
-    return (
-      <View style={styles.container}>
-        {this.renderCartItems()}
-        <View style={styles.totalContainer}>
-          <Text style={styles.title}>Subtotal</Text>
-          <Text style={styles.price}>R$ 200,00</Text>
-        </View>
-      </View>
-    );
+    return <View style={styles.container}>{this.renderOrFail(this.props.cart.products)}</View>;
   }
 }
 
-export default Cart;
+const mapStateToProps = state => ({
+  cart: state.cart,
+});
+
+export default connect(mapStateToProps, null)(Cart);
