@@ -1,10 +1,21 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
-const Login = () => (
-  <View>
-    <Text>Login</Text>
-  </View>
-);
+/* Styles */
+import styles from './styles';
+
+class Login extends Component {
+  componentDidMount() {
+    console.log('LOGIN');
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>Login</Text>
+      </View>
+    );
+  }
+}
 
 export default Login;

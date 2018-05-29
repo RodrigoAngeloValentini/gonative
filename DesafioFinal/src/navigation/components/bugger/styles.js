@@ -1,20 +1,19 @@
 import { StyleSheet } from 'react-native';
-import { colors, fonts, metrics } from 'styles';
+import { general, colors, fonts, metrics } from 'styles';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.darker,
     padding: metrics.basePadding,
-    backgroundColor: colors.purple,
-    justifyContent: 'center',
+    elevation: 10,
   },
 
-  title: {
-    alignSelf: 'center',
-    fontSize: fonts.larger,
+  link: {
+    fontSize: fonts.regular,
     fontWeight: 'bold',
     color: colors.white,
-    marginBottom: metrics.basePadding * 2,
+    marginVertical: metrics.basePadding,
   },
 });
 

@@ -4,18 +4,18 @@ import { View, Text } from 'react-native';
 /* Styles */
 import styles from './styles';
 
-class Identification extends Component {
+class Calendar extends Component {
   componentDidMount() {
-    console.log('Identification');
+    console.log('Calendar');
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>Identification</Text>
+        <Text>Calendar</Text>
       </View>
     );
   }
 }
 
-export default Identification;
+export default Calendar;

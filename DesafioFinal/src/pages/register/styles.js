@@ -16,6 +16,14 @@ const styles = StyleSheet.create({
     color: colors.white,
     marginBottom: metrics.basePadding * 2,
   },
+
+  backTitle: {
+    alignSelf: 'center',
+    fontSize: fonts.small,
+    fontWeight: 'bold',
+    color: colors.purpleDarker,
+    marginTop: metrics.basePadding,
+  },
 });
 
 export default styles;
