@@ -2,12 +2,10 @@
 import React from 'react';
 
 /* Navigation */
-import { StackNavigator, DrawerNavigator } from 'react-navigation';
+import { StackNavigator } from 'react-navigation';
 
 /* Components */
-import Footer from 'navigation/components/footer';
 import Header from 'navigation/components/header';
-import Bugger from 'navigation/components/bugger';
 
 import Identification from 'pages/identification';
 import Login from 'pages/login';
@@ -28,18 +26,6 @@ const Stack = StackNavigator(
     navigationOptions: {
       header: props => <Header {...props} defaultTitle="SCHEDULER" />,
     },
-  },
-);
-
-const Drawer = DrawerNavigator(
-  {
-    Home: {
-      screen: Stack,
-    },
-  },
-  {
-    contentComponent: props => <Bugger {...props} />,
-    drawerWidth: 300,
   },
 );
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 
 import styles from './styles';
 
@@ -9,7 +9,11 @@ class Header extends Component {
   }
 
   render() {
-    return <View style={styles.container}>{this.props.defaultTitle}</View>;
+    return (
+      <View style={styles.container}>
+        <Text>{this.props.defaultTitle}</Text>
+      </View>
+    );
   }
 }
 

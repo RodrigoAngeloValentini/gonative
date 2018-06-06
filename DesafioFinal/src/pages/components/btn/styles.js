@@ -3,17 +3,18 @@ import { general, colors, fonts, metrics } from 'styles';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: colors.darker,
-    padding: metrics.basePadding,
+    height: metrics.navBarHeight,
+    backgroundColor: colors.green,
+    borderRadius: metrics.baseRadius,
+    justifyContent: 'center',
+    alignItems: 'center',
     elevation: 10,
   },
 
-  link: {
+  title: {
     fontSize: fonts.regular,
     fontWeight: 'bold',
     color: colors.white,
-    marginVertical: metrics.basePadding,
   },
 });
 
