@@ -1,5 +1,5 @@
 import { create } from 'apisauce';
 
 export default create({
-  baseURL: 'http://raphaelmorales.com/api/todo',
+  baseURL: 'http://localhost:3000/api',
 });

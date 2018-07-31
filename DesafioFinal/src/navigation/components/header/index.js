@@ -1,20 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
 
 import styles from './styles';
 
-class Header extends Component {
-  componentWillMount() {
-    // console.tron.error(this.props);
-  }
-
+const Header = ({ defaultTitle }) => ({
   render() {
     return (
       <View style={styles.container}>
-        <Text>{this.props.defaultTitle}</Text>
+        <Text>
+          {defaultTitle}
+        </Text>
       </View>
     );
-  }
-}
+  },
+});
 
 export default Header;

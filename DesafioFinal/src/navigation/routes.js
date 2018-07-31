@@ -1,28 +1,16 @@
-/* React */
 import React from 'react';
 
-/* Navigation */
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
-/* Components */
-import Header from 'navigation/components/header';
-
-import Identification from 'pages/identification';
-import Login from 'pages/login';
 import Register from 'pages/register';
-import Dashboard from 'pages/dashboard';
-import Calendar from 'pages/calendar';
+import Header from './components/header';
 
-const Stack = StackNavigator(
+const Stack = createStackNavigator(
   {
-    Identification: { screen: Identification },
-    Login: { screen: Login },
     Register: { screen: Register },
-    Dashboard: { screen: Dashboard },
-    Calendar: { screen: Calendar },
   },
   {
-    initialRouteName: 'Identification',
+    initialRouteName: 'Register',
     navigationOptions: {
       header: props => <Header {...props} defaultTitle="SCHEDULER" />,
     },

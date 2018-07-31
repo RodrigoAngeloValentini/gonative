@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { general, colors, fonts, metrics } from 'styles';
+import {
+  general, colors, fonts, metrics,
+} from 'styles';
 
 const styles = StyleSheet.create({
   container: {
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.green,
-    borderRadius: metrics.baseMargin * 1.5 / 2,
+    borderRadius: (metrics.baseMargin * 1.5) / 2,
     width: metrics.baseMargin * 1.5,
     height: metrics.baseMargin * 1.5,
   },
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
   iconBackContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: metrics.baseMargin * 1.5 / 2,
+    borderRadius: (metrics.baseMargin * 1.5) / 2,
     width: metrics.baseMargin * 1.5,
     height: metrics.baseMargin * 1.5,
   },

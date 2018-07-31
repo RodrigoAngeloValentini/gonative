@@ -1,19 +1,12 @@
-import 'config/ReactotronConfig';
-import 'config/StatusBarConfig';
-
 import React from 'react';
 
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/es/integration/react';
-import { store, persistor } from 'redux/store';
-
 import Routes from 'navigation';
+import store from 'redux/store';
 
 const App = () => (
   <Provider store={store}>
-    <PersistGate persistor={persistor}>
-      <Routes />
-    </PersistGate>
+    <Routes />
   </Provider>
 );
 

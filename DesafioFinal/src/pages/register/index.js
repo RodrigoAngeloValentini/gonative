@@ -1,21 +1,31 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import { View, Text } from 'react-native';
 
-/* Styles */
+import { connect } from 'react-redux';
+
 import styles from './styles';
 
 class Register extends Component {
-  componentDidMount() {
-    console.log('REGISTER');
-  }
+  static navigationOptions = { header: null };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>Register</Text>
+        <Text style={styles.title}>
+Scheduler
+        </Text>
       </View>
     );
   }
 }
 
-export default Register;
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => ({});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Register);
