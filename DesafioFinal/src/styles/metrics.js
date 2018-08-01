@@ -9,8 +9,9 @@ export default {
   basePadding: 20,
   screenWidth: width < height ? width : height,
   screenHeight: width < height ? height : width,
+  buttonHeight: 50,
   tabBarHeight: 54,
   navBarHeight: 54,
   statusBarHeight: Platform.OS === 'ios' ? 20 : 0,
-  baseRadius: 10,
+  baseRadius: 5,
 };

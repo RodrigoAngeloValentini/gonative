@@ -10,21 +10,17 @@ import { connect } from 'react-redux';
 
 import styles from './styles';
 
-class Register extends Component {
+class Identification extends Component {
   static navigationOptions = { header: null };
 
-  state = {
-    phone: '',
-    name: '',
-    password: '',
-  };
+  state = { phone: '' };
 
-  register = () => {
+  checkAndFindPhone = () => {
     Keyboard.dismiss();
   };
 
   render() {
-    const { phone, name, password } = this.state;
+    const { phone } = this.state;
     return (
       <View style={styles.container}>
         <Text style={styles.title}>
@@ -33,29 +29,15 @@ Scheduler
         <Input
           title="Seu número de telefone"
           icon="phone"
-          onChangeText={value => this.setState({ phone: value })}
+          onChangeText={value => this.setState({
+            phone: value,
+          })
+          }
           value={phone}
           keyboardType="phone-pad"
           color="purple"
         />
-        <Input
-          title="Nome Completo"
-          icon="user"
-          onChangeText={value => this.setState({ name: value })}
-          value={name}
-          keyboardType="default"
-          color="purple"
-        />
-        <Input
-          title="Sua senha secreta"
-          icon="lock"
-          onChangeText={value => this.setState({ password: value })}
-          value={password}
-          keyboardType="default"
-          color="purple"
-          secureTextEntry
-        />
-        <Button title="Criar uma contra grátis" onPress={this.register} loading={false} />
+        <Button title="Verificar" onPress={this.checkAndFindPhone} loading={false} />
       </View>
     );
   }
@@ -68,4 +50,4 @@ const mapDispatchToProps = dispatch => ({});
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Register);
+)(Identification);

@@ -10,21 +10,17 @@ import { connect } from 'react-redux';
 
 import styles from './styles';
 
-class Register extends Component {
+class Login extends Component {
   static navigationOptions = { header: null };
 
-  state = {
-    phone: '',
-    name: '',
-    password: '',
-  };
+  state = { phone: '', password: '' };
 
-  register = () => {
+  login = () => {
     Keyboard.dismiss();
   };
 
   render() {
-    const { phone, name, password } = this.state;
+    const { phone, password } = this.state;
     return (
       <View style={styles.container}>
         <Text style={styles.title}>
@@ -33,29 +29,28 @@ Scheduler
         <Input
           title="Seu número de telefone"
           icon="phone"
-          onChangeText={value => this.setState({ phone: value })}
+          onChangeText={value => this.setState({
+            phone: value,
+          })
+          }
           value={phone}
           keyboardType="phone-pad"
           color="purple"
         />
         <Input
-          title="Nome Completo"
-          icon="user"
-          onChangeText={value => this.setState({ name: value })}
-          value={name}
-          keyboardType="default"
-          color="purple"
-        />
-        <Input
           title="Sua senha secreta"
-          icon="lock"
+          icon="user"
           onChangeText={value => this.setState({ password: value })}
           value={password}
           keyboardType="default"
           color="purple"
           secureTextEntry
         />
-        <Button title="Criar uma contra grátis" onPress={this.register} loading={false} />
+        <Button title="Entrar" onPress={this.login} loading={false} />
+        <Text style={styles.recovery}>
+          {' '}
+Esqueceu a senha ? Que pena ...
+        </Text>
       </View>
     );
   }
@@ -68,4 +63,4 @@ const mapDispatchToProps = dispatch => ({});
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Register);
+)(Login);
