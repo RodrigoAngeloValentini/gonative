@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import VMasker from 'vanilla-masker';
 import PropTypes from 'prop-types';
 
 import { View, Text, Keyboard } from 'react-native';
 
 import Button from 'components/button';
 import Input from 'components/input';
+import Notification from 'components/notification';
 
 import { connect } from 'react-redux';
 
@@ -27,13 +29,15 @@ class Register extends Component {
     const { phone, name, password } = this.state;
     return (
       <View style={styles.container}>
+        <Notification />
         <Text style={styles.title}>
 Scheduler
         </Text>
         <Input
           title="Seu número de telefone"
           icon="phone"
-          onChangeText={value => this.setState({ phone: value })}
+          onChangeText={value => this.setState({ phone: VMasker.toPattern(value, '(99)99999-9999') })
+          }
           value={phone}
           keyboardType="phone-pad"
           color="purple"

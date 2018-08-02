@@ -32,9 +32,9 @@ class Notification extends Component {
 
 Notification.defaultProps = {
   notification: {
-    show: false,
-    msg: '',
-    error: '',
+    show: true,
+    msg: 'Notification message',
+    error: false,
   },
 };
 
