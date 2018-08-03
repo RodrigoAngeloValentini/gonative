@@ -39,7 +39,7 @@ Scheduler
         />
         <Input
           title="Sua senha secreta"
-          icon="user"
+          icon="lock"
           onChangeText={value => this.setState({ password: value })}
           value={password}
           keyboardType="default"

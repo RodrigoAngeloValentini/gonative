@@ -1,6 +1,6 @@
 import React from 'react';
-import Routes from './routes';
+import { Drawer } from './routes';
 
-const Navigator = () => (<Routes />);
+const Routes = () => <Drawer />;
 
-export default Navigator;
+export default Routes;

@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
 
   scrollview: {
     flex: 1,
+    margin: 10,
   },
 
   containerEmpty: {

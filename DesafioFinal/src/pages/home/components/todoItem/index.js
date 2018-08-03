@@ -12,18 +12,24 @@ import TodoButton from '../todoButton';
 class TodoItem extends Component {
   btnShare = () => {
     const { title, description } = this.props;
-    return {
-      component: <TodoButton color="share" icon="share" title={title} description={description} />,
-      backgroundColor: colors.transparent,
-    };
+    return [
+      {
+        component: (
+          <TodoButton color="share" icon="share" title={title} description={description} />
+        ),
+        backgroundColor: colors.transparent,
+      },
+    ];
   };
 
   btnRemove = () => {
     const { id } = this.props;
-    return {
-      component: <TodoButton color="remove" icon="times" id={id} />,
-      backgroundColor: colors.transparent,
-    };
+    return [
+      {
+        component: <TodoButton color="remove" icon="times" id={id} />,
+        backgroundColor: colors.transparent,
+      },
+    ];
   };
 
   render() {

@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import { StatusBar } from 'react-native';
 
 import { Provider } from 'react-redux';
+
+import { colors } from 'styles';
 
 import firebase from 'firebase';
 import Routes from './routes';
@@ -23,7 +26,10 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Routes />
+        <Fragment>
+          <StatusBar barStyle="light-content" backgroundColor={colors.purple} />
+          <Routes />
+        </Fragment>
       </Provider>
     );
   }

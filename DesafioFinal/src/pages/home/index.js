@@ -14,6 +14,7 @@ import styles from './styles';
 import Modal from './components/modal';
 import Calendar from './components/calendar';
 import TodoItem from './components/todoItem';
+import Header from './components/header';
 
 class Home extends Component {
   static navigationOptions = {
@@ -48,6 +49,7 @@ Nada foi encontrado
     return (
       <View style={styles.container}>
         <Modal />
+        <Header />
         <View style={styles.calendar}>
           <Calendar />
         </View>
@@ -68,7 +70,7 @@ Nada foi encontrado
             style={styles.list}
             data={todos}
             ListEmptyComponent={this.emptyMensagem}
-            keyExtractor={todo => todo.id}
+            keyExtractor={todo => todo.id.toString()}
             renderItem={todo => (
               <TodoItem
                 id={todo.item.id}
