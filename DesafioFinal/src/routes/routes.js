@@ -8,7 +8,7 @@ import Login from 'pages/login';
 import Home from 'pages/home';
 import Profile from 'pages/profile';
 
-import Header from './components/header';
+import { colors, fonts } from 'styles';
 import Menu from './components/menu';
 
 export const Stack = createStackNavigator(
@@ -22,17 +22,24 @@ export const Stack = createStackNavigator(
   {
     initialRouteName: 'Home',
     navigationOptions: {
-      header: props => <Header {...props} defaultTitle="SCHEDULER" />,
+      headerStyle: {
+        backgroundColor: colors.purple,
+      },
+      headerTintColor: colors.white,
+      headerTitleStyle: {
+        fontSize: fonts.big,
+        fontWeight: 'normal',
+      },
     },
   },
 );
 
 export const Drawer = createDrawerNavigator(
   {
-    Register: { screen: Register },
-    Identification: { screen: Identification },
-    Login: { screen: Login },
     Home: { screen: Home },
+    Identification: { screen: Identification },
+    Register: { screen: Register },
+    Login: { screen: Login },
     Profile: { screen: Profile },
   },
   {

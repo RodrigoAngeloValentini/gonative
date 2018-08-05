@@ -11,6 +11,8 @@ import { connect } from 'react-redux';
 import styles from './styles';
 
 class Profile extends Component {
+  static navigationOptions = { title: 'SCHUDLER' };
+
   state = { name: '', password: '', passwordConfirmation: '' };
 
   updateProfile = () => {

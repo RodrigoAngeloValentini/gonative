@@ -6,13 +6,16 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import { withNavigation } from 'react-navigation';
+
 import { connect } from 'react-redux';
 
 import { colors, fonts } from 'styles';
 import styles from './styles';
 
 import Modal from './components/modal';
-import Calendar from './components/calendar';
+// import Calendar from './components/calendar';
+import MiniCalendar from './components/miniCalendar';
 import TodoItem from './components/todoItem';
 import Header from './components/header';
 
@@ -33,6 +36,10 @@ class Home extends Component {
     ],
   };
 
+  componentDidMount() {
+    console.log(this.props.navigation);
+  }
+
   emptyMensagem = () => (
     <View style={styles.containerEmpty}>
       <Icon name="calendar" size={fonts.bigger} color={colors.purpleDarker} />
@@ -44,14 +51,28 @@ Nada foi encontrado
 
   formatTime = time => VMasker.toPattern(time, '99:99');
 
+  iconLeftOnClick = () => {};
+
+  iconRightOnClick = () => {
+    this.props.navigation.navigate('Profile');
+  };
+
   render() {
     const { refreshing, todos } = this.state;
     return (
       <View style={styles.container}>
         <Modal />
-        <Header />
+        <Header
+          iconLeftOnClick={() => {
+            this.iconLeftOnClick();
+          }}
+          iconRightOnClick={() => {
+            this.iconRightOnClick();
+          }}
+        />
         <View style={styles.calendar}>
-          <Calendar />
+          {/* <Calendar /> */}
+          <MiniCalendar />
         </View>
         <ScrollView
           style={styles.scrollview}
@@ -93,4 +114,4 @@ const mapDispatchToProps = dispatch => ({});
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Home);
+)(withNavigation(Home));
