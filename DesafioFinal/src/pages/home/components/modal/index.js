@@ -10,6 +10,7 @@ import Input from 'components/input';
 import Datepicker from 'components/datepicker';
 
 import { connect } from 'react-redux';
+import { Creators as TodoActions } from 'store/ducks/todo';
 
 import styles from './styles';
 
@@ -17,9 +18,10 @@ class Modal extends Component {
   state = { dateTime: '', title: '', description: '' };
 
   render() {
+    const { visible } = this.props;
     const { dateTime, title, description } = this.state;
     return (
-      <ModalReact transparent visible={false} animationType="fade" onRequestClose={() => {}}>
+      <ModalReact transparent visible={visible} animationType="fade" onRequestClose={() => {}}>
         <View style={styles.container}>
           <View style={styles.box}>
             <View style={styles.header}>
@@ -57,7 +59,12 @@ Criar Evento
             </View>
 
             <View style={styles.bottom}>
-              <TouchableOpacity activeOpacity={0.7} onPress={() => {}}>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  this.props.todoModalClose();
+                }}
+              >
                 <Text style={styles.backTitle}>
                   {' '}
 Cancelar
@@ -71,9 +78,20 @@ Cancelar
   }
 }
 
+Modal.defaultProps = {
+  visible: false,
+};
+
+Modal.propTypes = {
+  visible: PropTypes.bool,
+  todoModalClose: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = dispatch => ({});
+const mapDispatchToProps = dispatch => ({
+  todoModalClose: () => dispatch(TodoActions.todoModalClose()),
+});
 
 export default connect(
   mapStateToProps,

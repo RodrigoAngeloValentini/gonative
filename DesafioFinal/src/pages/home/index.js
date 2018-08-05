@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import VMasker from 'vanilla-masker';
 
 import {
@@ -9,6 +10,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { withNavigation } from 'react-navigation';
 
 import { connect } from 'react-redux';
+import { Creators as TodoActions } from 'store/ducks/todo';
 
 import { colors, fonts } from 'styles';
 import styles from './styles';
@@ -51,7 +53,9 @@ Nada foi encontrado
 
   formatTime = time => VMasker.toPattern(time, '99:99');
 
-  iconLeftOnClick = () => {};
+  iconLeftOnClick = () => {
+    this.props.todoModalOpen();
+  };
 
   iconRightOnClick = () => {
     this.props.navigation.navigate('Profile');
@@ -59,9 +63,10 @@ Nada foi encontrado
 
   render() {
     const { refreshing, todos } = this.state;
+    const { modalVisible } = this.props;
     return (
       <View style={styles.container}>
-        <Modal />
+        <Modal visible={modalVisible} />
         <Header
           iconLeftOnClick={() => {
             this.iconLeftOnClick();
@@ -107,9 +112,18 @@ Nada foi encontrado
   }
 }
 
-const mapStateToProps = state => ({});
+Home.propTypes = {
+  modalVisible: PropTypes.bool.isRequired,
+  todoModalOpen: PropTypes.func.isRequired,
+};
 
-const mapDispatchToProps = dispatch => ({});
+const mapStateToProps = state => ({
+  modalVisible: state.todo.modalVisible,
+});
+
+const mapDispatchToProps = dispatch => ({
+  todoModalOpen: () => dispatch(TodoActions.todoModalOpen()),
+});
 
 export default connect(
   mapStateToProps,
