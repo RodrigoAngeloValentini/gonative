@@ -1,6 +1,6 @@
 import React from 'react';
 import { Drawer, Stack } from './routes';
 
-const Routes = () => <Stack />;
+const Routes = () => <Drawer />;
 
 export default Routes;

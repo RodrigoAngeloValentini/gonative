@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  Modal as ModalReact, TouchableOpacity, View, Text,
-} from 'react-native';
+import { Modal as ModalReact, TouchableOpacity, View, Text } from 'react-native';
 
 import Button from 'components/button';
 import Input from 'components/input';
@@ -17,17 +15,20 @@ import styles from './styles';
 class Modal extends Component {
   state = { dateTime: '', title: '', description: '' };
 
+  addTodo = () => {
+    const { dateTime, title, description } = this.state;
+    this.props.todoNewRequest(dateTime, title, description);
+  };
+
   render() {
-    const { visible } = this.props;
+    const { visible, loading } = this.props;
     const { dateTime, title, description } = this.state;
     return (
       <ModalReact transparent visible={visible} animationType="fade" onRequestClose={() => {}}>
         <View style={styles.container}>
           <View style={styles.box}>
             <View style={styles.header}>
-              <Text style={styles.title}>
-Criar Evento
-              </Text>
+              <Text style={styles.title}>Criar Evento</Text>
             </View>
             <View>
               <Datepicker
@@ -55,7 +56,12 @@ Criar Evento
                 keyboardType="default"
                 color="gray"
               />
-              <Button title="Criar evento" onPress={() => {}} loading={false} />
+              <Button
+                title="Criar evento"
+                onPress={() => {}}
+                loading={loading}
+                disabled={loading}
+              />
             </View>
 
             <View style={styles.bottom}>
@@ -65,10 +71,7 @@ Criar Evento
                   this.props.todoModalClose();
                 }}
               >
-                <Text style={styles.backTitle}>
-                  {' '}
-Cancelar
-                </Text>
+                <Text style={styles.backTitle}> Cancelar</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -85,12 +88,18 @@ Modal.defaultProps = {
 Modal.propTypes = {
   visible: PropTypes.bool,
   todoModalClose: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  todoNewRequest: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  loading: state.loading.loading,
+});
 
 const mapDispatchToProps = dispatch => ({
   todoModalClose: () => dispatch(TodoActions.todoModalClose()),
+  todoNewRequest: (datetime, name, description) =>
+    dispatch(TodoActions.todoNewRequest(datetime, name, description)),
 });
 
 export default connect(

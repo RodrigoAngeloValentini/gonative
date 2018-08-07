@@ -11,10 +11,6 @@ import Message from '../message';
 import styles from './styles';
 
 class Notification extends Component {
-  componentWillMount() {
-    this.hideMsg();
-  }
-
   componentDidUpdate() {
     this.hideMsg();
   }
@@ -24,7 +20,7 @@ class Notification extends Component {
     if (show) {
       setTimeout(() => {
         this.props.notificationHide();
-      }, 3000);
+      }, 1500);
     }
   };
 

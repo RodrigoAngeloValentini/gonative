@@ -1,22 +1,31 @@
 import React, { Component } from 'react';
-import VMasker from 'vanilla-masker';
 import PropTypes from 'prop-types';
 
 import { View, Text, Keyboard } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
 import Button from 'components/button';
 import Input from 'components/input';
-import Notification from 'components/notification';
 
 import { connect } from 'react-redux';
 import { Creators as UserActions } from 'store/ducks/user';
 
+import { maskPhone } from 'helpers/maskPhone';
 import styles from './styles';
 
 class Identification extends Component {
   static navigationOptions = { header: null };
 
-  state = { phone: this.props.phone };
+  state = { phone: '' };
+
+  componentDidUpdate() {
+    if (this.props.userExist === true) {
+      this.props.navigation.replace('Login');
+    }
+    if (this.props.userExist === false) {
+      this.props.navigation.replace('Register');
+    }
+  }
 
   verify = () => {
     Keyboard.dismiss();
@@ -32,7 +41,6 @@ class Identification extends Component {
     const { phone } = this.state;
     return (
       <View style={styles.container}>
-        <Notification />
         <Text style={styles.title}>
 Scheduler
         </Text>
@@ -40,7 +48,7 @@ Scheduler
           title="Seu número de telefone"
           icon="phone"
           onChangeText={value => this.setState({
-            phone: VMasker.toPattern(value, '(99)99999-9999'),
+            phone: maskPhone(value),
           })
           }
           value={phone}
@@ -53,14 +61,19 @@ Scheduler
   }
 }
 
+Identification.defaultProps = {
+  userExist: undefined,
+};
+
 Identification.propTypes = {
   loading: PropTypes.bool.isRequired,
-  phone: PropTypes.string.isRequired,
   phoneVerifyRequest: PropTypes.func.isRequired,
+  userExist: PropTypes.oneOf([true, false, null]),
 };
 
 const mapStateToProps = state => ({
   loading: state.loading.loading,
+  userExist: state.user.userExist,
   phone: state.user.phone,
 });
 
@@ -71,4 +84,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Identification);
+)(withNavigation(Identification));

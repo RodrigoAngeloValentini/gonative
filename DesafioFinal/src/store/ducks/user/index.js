@@ -19,6 +19,9 @@ export const Types = {
 };
 
 const initialState = Immutable({
+  userExist: null,
+  userRegister: null,
+  userAuth: null,
   id: null,
   name: '',
   phone: '',
@@ -27,6 +30,56 @@ const initialState = Immutable({
 
 export default function user(state = initialState, action) {
   switch (action.type) {
+    case Types.USER_PHONE_VERIFY:
+      return {
+        ...state,
+        ...initialState,
+      };
+    case Types.USER_PHONE_VERIFY_SUCCESS:
+      return {
+        ...state,
+        userExist: action.payload.status,
+        phone: action.payload.phone,
+      };
+    case Types.USER_PHONE_VERIFY_ERROR:
+      return {
+        ...state,
+        userExist: false,
+        phone: '',
+      };
+    case Types.USER_REGISTER_REQUEST:
+      return {
+        ...state,
+        ...initialState,
+      };
+    case Types.USER_REGISTER_SUCCESS:
+      return {
+        ...state,
+        userRegister: true,
+        phone: action.payload.phone,
+      };
+    case Types.USER_REGISTER_ERROR:
+      return {
+        ...state,
+        userRegister: false,
+      };
+    case Types.USER_AUTH_REQUEST:
+      return {
+        ...state,
+        ...initialState,
+      };
+    case Types.USER_AUTH_SUCCESS:
+      return {
+        ...state,
+        userAuth: true,
+        token: action.payload.token,
+        refreshToken: action.payload.refreshToken,
+      };
+    case Types.USER_AUTH_ERROR:
+      return {
+        ...state,
+        userAuth: false,
+      };
     case Types.USER_UPDATE_SUCCESS:
       return {
         ...state,
@@ -44,10 +97,11 @@ export const Creators = {
     },
   }),
 
-  phoneVerifySuccess: phone => ({
+  phoneVerifySuccess: (phone, status) => ({
     type: Types.USER_PHONE_VERIFY_SUCCESS,
     payload: {
       phone,
+      status,
     },
   }),
 
@@ -56,5 +110,48 @@ export const Creators = {
     payload: {
       error,
     },
+  }),
+
+  userRegisterRequest: (phone, name, password) => ({
+    type: Types.USER_REGISTER_REQUEST,
+    payload: {
+      phone,
+      name,
+      password,
+    },
+  }),
+
+  userRegisterSuccess: phone => ({
+    type: Types.USER_REGISTER_SUCCESS,
+    payload: {
+      phone,
+    },
+  }),
+
+  userRegisterError: error => ({
+    type: Types.USER_REGISTER_ERROR,
+    payload: {
+      error,
+    },
+  }),
+
+  userAuthRequest: (phone, password) => ({
+    type: Types.USER_AUTH_REQUEST,
+    payload: {
+      phone,
+      password,
+    },
+  }),
+
+  userAuthSuccess: (token, refreshToken) => ({
+    type: Types.USER_AUTH_SUCCESS,
+    payload: {
+      token,
+      refreshToken,
+    },
+  }),
+
+  userAuthError: () => ({
+    type: Types.USER_AUTH_ERROR,
   }),
 };
