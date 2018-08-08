@@ -31,7 +31,7 @@ export function* getTodoByDate(action) {
       }
   }
 
-  yield put(LoadingActions.startLoading());
+  yield put(LoadingActions.endLoading());
 }
 
 export function* newTodo(action) {
@@ -47,10 +47,32 @@ export function* newTodo(action) {
 
   const response = yield call(api.post, '/todo', data);
 
-  // switch (response.status) {
-  // }
+  console.log(response);
 
-  yield put(LoadingActions.startLoading());
+  switch (response.status) {
+    case 500:
+      yield put(NotificationActions.showNofitication('Erro ao cadastrar', true));
+
+      yield put(TodoActions.todoNewError());
+      break;
+    case 422:
+      yield put(NotificationActions.showNofitication(response.data.error[0].message, true));
+
+      yield put(TodoActions.todoNewError());
+      break;
+    default:
+      if (response.data.id) {
+        yield put(NotificationActions.showNofitication('Adicionado com sucesso', false));
+
+        yield put(TodoActions.todoNewSuccess(response.data));
+      } else {
+        yield put(NotificationActions.showNofitication('Erro ao adicionar', true));
+
+        yield put(TodoActions.todoNewError());
+      }
+  }
+
+  yield put(LoadingActions.endLoading());
 }
 
 export function* deleteTodo(action) {
@@ -63,5 +85,5 @@ export function* deleteTodo(action) {
   // switch (response.status) {
   // }
 
-  yield put(LoadingActions.startLoading());
+  yield put(LoadingActions.endLoading());
 }

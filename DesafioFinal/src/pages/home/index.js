@@ -25,6 +25,10 @@ class Home extends Component {
     header: null,
   };
 
+  componentDidMount() {
+    this.props.todoListRequest();
+  }
+
   componentDidUpdate(prevProps) {
     if (prevProps.date !== this.props.date) {
       this.props.todoListRequest();

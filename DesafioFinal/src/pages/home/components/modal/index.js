@@ -15,9 +15,19 @@ import styles from './styles';
 class Modal extends Component {
   state = { dateTime: '', title: '', description: '' };
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.visible !== this.props.visible) {
+      this.resetInputs();
+    }
+  }
+
   addTodo = () => {
     const { dateTime, title, description } = this.state;
     this.props.todoNewRequest(dateTime, title, description);
+  };
+
+  resetInputs = () => {
+    this.setState({ dateTime: '', title: '', description: '' });
   };
 
   render() {
@@ -58,7 +68,7 @@ class Modal extends Component {
               />
               <Button
                 title="Criar evento"
-                onPress={() => {}}
+                onPress={this.addTodo}
                 loading={loading}
                 disabled={loading}
               />

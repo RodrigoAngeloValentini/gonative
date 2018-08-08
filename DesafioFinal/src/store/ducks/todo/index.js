@@ -48,6 +48,20 @@ export default function todo(state = initialState, action) {
         ...state,
         refreshing: false,
       };
+    case Types.TODO_NEW_REQUEST:
+      return {
+        ...state,
+      };
+    case Types.TODO_NEW_SUCCESS:
+      return {
+        ...state,
+        modalVisible: false,
+      };
+    case Types.TODO_NEW_ERROR:
+      return {
+        ...state,
+        modalVisible: false,
+      };
     default:
       return state;
   }
@@ -77,17 +91,20 @@ export const Creators = {
     type: Types.TODO_LIST_ERROR,
   }),
 
-  todoNewRequest: (datetime, name, description) => ({
+  todoNewRequest: (datetime, title, description) => ({
     type: Types.TODO_NEW_REQUEST,
     payload: {
       datetime,
-      name,
+      title,
       description,
     },
   }),
 
-  todoNewSuccess: () => ({
+  todoNewSuccess: data => ({
     type: Types.TODO_NEW_SUCCESS,
+    payload: {
+      data,
+    },
   }),
 
   todoNewError: () => ({
