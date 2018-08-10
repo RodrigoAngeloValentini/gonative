@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import VMasker from 'vanilla-masker';
 
 import { View, Text, ScrollView, RefreshControl, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -19,6 +18,8 @@ import Calendar from './components/calendar';
 import MiniCalendar from './components/miniCalendar';
 import TodoItem from './components/todoItem';
 import Header from './components/header';
+
+import { formatTime } from 'helpers/dateFunctions';
 
 class Home extends Component {
   static navigationOptions = {
@@ -41,8 +42,6 @@ class Home extends Component {
       <Text style={styles.titleEmpty}>Nada foi encontrado</Text>
     </View>
   );
-
-  formatTime = time => VMasker.toPattern(time, '99:99');
 
   iconLeftOnClick = () => {
     this.props.todoModalOpen();
@@ -94,7 +93,7 @@ class Home extends Component {
                 id={todo.item.id}
                 title={todo.item.title}
                 description={todo.item.description}
-                time={this.formatTime(todo.item.datetime)}
+                time={formatTime(todo.item.datetime)}
               />
             )}
           />

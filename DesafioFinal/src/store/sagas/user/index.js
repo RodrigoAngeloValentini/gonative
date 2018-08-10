@@ -1,9 +1,19 @@
 import api from 'services/api';
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 
 import { Creators as LoadingActions } from 'store/ducks/loading';
 import { Creators as NotificationActions } from 'store/ducks/notification';
 import { Creators as UserActions } from 'store/ducks/user';
+
+const getUser = state => state.user;
+
+const getHeaders = (jwtToken) => {
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${jwtToken}`,
+  };
+  return headers;
+};
 
 export function* userPhoneVerify(action) {
   yield put(LoadingActions.startLoading());
@@ -35,6 +45,14 @@ export function* userRegister(action) {
   yield put(LoadingActions.startLoading());
 
   const { phone, name, password } = action.payload;
+
+  if (phone.length !== 11) {
+    yield put(NotificationActions.showNofitication('Número inválido', true));
+
+    yield put(UserActions.userRegisterError());
+
+    return;
+  }
 
   const data = {
     phone,
@@ -82,8 +100,6 @@ export function* userAuth(action) {
 
   const response = yield call(api.post, '/auth/authenticate', data);
 
-  console.log(response);
-
   switch (response.status) {
     case 500:
       yield put(NotificationActions.showNofitication('Erro ao autenticar', true));
@@ -104,11 +120,66 @@ export function* userAuth(action) {
       if (response.data.token) {
         yield put(NotificationActions.showNofitication('Login OK', false));
 
-        yield put(UserActions.userAuthSuccess(response.data.token, response.data.refreshToken));
+        const { token, refreshToken, name } = response.data;
+
+        yield put(UserActions.userAuthSuccess(token, refreshToken, name, phone));
       } else {
         yield put(NotificationActions.showNofitication('Erro ao autenticar', true));
 
         yield put(UserActions.userAuthError());
+      }
+  }
+
+  yield put(LoadingActions.endLoading());
+}
+
+export function* userUpdate(action) {
+  yield put(LoadingActions.startLoading());
+
+  const { name, password, passwordConfirmation } = action.payload;
+
+  const user = yield select(getUser);
+
+  const headers = getHeaders(user.token);
+  api.setHeaders({
+    ...headers,
+  });
+
+  const data = {
+    name,
+    password,
+    passwordConfirmation,
+  };
+
+  const response = yield call(api.put, '/user', data);
+
+  switch (response.status) {
+    case 500:
+      yield put(NotificationActions.showNofitication('Erro ao atualizar', true));
+
+      yield put(UserActions.userUpdateError());
+      break;
+    case 401:
+      yield put(NotificationActions.showNofitication('Não foi possível atualizar', true));
+
+      yield put(UserActions.userUpdateError());
+      break;
+    case 422:
+      yield put(NotificationActions.showNofitication(response.data.error[0].message, true));
+
+      yield put(UserActions.userUpdateError());
+      break;
+    default:
+      if (response.ok) {
+        yield put(NotificationActions.showNofitication('Atualizado com successo', false));
+
+        console.log(response.data);
+
+        yield put(UserActions.userUpdateSuccess(response.data.name));
+      } else {
+        yield put(NotificationActions.showNofitication('Erro ao atualizar', true));
+
+        yield put(UserActions.userUpdateError());
       }
   }
 

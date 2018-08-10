@@ -8,10 +8,24 @@ import { Creators as TodoActions } from 'store/ducks/todo';
 const getUser = state => state.user;
 const getCalendar = state => state.calendar;
 
+const getHeaders = (jwtToken) => {
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${jwtToken}`,
+  };
+  return headers;
+};
+
 export function* getTodoByDate(action) {
   yield put(LoadingActions.startLoading());
 
   const calendar = yield select(getCalendar);
+  const user = yield select(getUser);
+
+  const headers = getHeaders(user.token);
+  api.setHeaders({
+    ...headers,
+  });
 
   const response = yield call(api.get, `/todo/get-by-date/${calendar.date}`);
 
@@ -21,8 +35,11 @@ export function* getTodoByDate(action) {
 
       yield put(TodoActions.todoListError());
       break;
+    case 401:
+      yield put(TodoActions.todoListError());
+      break;
     default:
-      if (response.data) {
+      if (response.ok) {
         yield put(TodoActions.todoListSuccess(response.data));
       } else {
         yield put(NotificationActions.showNofitication('Erro ao buscar', true));
@@ -39,6 +56,14 @@ export function* newTodo(action) {
 
   const { title, description, datetime } = action.payload;
 
+  const calendar = yield select(getCalendar);
+  const user = yield select(getUser);
+
+  const headers = getHeaders(user.token);
+  api.setHeaders({
+    ...headers,
+  });
+
   const data = {
     title,
     description,
@@ -47,12 +72,13 @@ export function* newTodo(action) {
 
   const response = yield call(api.post, '/todo', data);
 
-  console.log(response);
-
   switch (response.status) {
     case 500:
       yield put(NotificationActions.showNofitication('Erro ao cadastrar', true));
 
+      yield put(TodoActions.todoNewError());
+      break;
+    case 401:
       yield put(TodoActions.todoNewError());
       break;
     case 422:
@@ -61,10 +87,10 @@ export function* newTodo(action) {
       yield put(TodoActions.todoNewError());
       break;
     default:
-      if (response.data.id) {
+      if (response.ok) {
         yield put(NotificationActions.showNofitication('Adicionado com sucesso', false));
 
-        yield put(TodoActions.todoNewSuccess(response.data));
+        yield put(TodoActions.todoNewSuccess(calendar.date, response.data));
       } else {
         yield put(NotificationActions.showNofitication('Erro ao adicionar', true));
 
@@ -78,12 +104,34 @@ export function* newTodo(action) {
 export function* deleteTodo(action) {
   yield put(LoadingActions.startLoading());
 
+  const user = yield select(getUser);
+
+  const headers = getHeaders(user.token);
+  api.setHeaders({
+    ...headers,
+  });
+
   const { id } = action.payload;
 
   const response = yield call(api.delete, `/todo/${id}`);
 
-  // switch (response.status) {
-  // }
+  switch (response.status) {
+    case 500:
+      yield put(NotificationActions.showNofitication('Erro ao remover', true));
+
+      yield put(TodoActions.todoRemoveError());
+      break;
+    case 401:
+      yield put(TodoActions.todoRemoveError());
+      break;
+    case 204:
+      yield put(TodoActions.todoRemoveSuccess(id));
+      break;
+    default:
+      yield put(NotificationActions.showNofitication('Erro ao remover', true));
+
+      yield put(TodoActions.todoRemoveError());
+  }
 
   yield put(LoadingActions.endLoading());
 }

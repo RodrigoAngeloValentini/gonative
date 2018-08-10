@@ -1,4 +1,5 @@
 import Immutable from 'seamless-immutable';
+import { isSameDate } from 'helpers/dateFunctions';
 
 export const Types = {
   TODO_MODAL_OPEN: 'todo/TODO_MODAL_OPEN',
@@ -53,6 +54,13 @@ export default function todo(state = initialState, action) {
         ...state,
       };
     case Types.TODO_NEW_SUCCESS:
+      if (isSameDate(action.payload.dateActive, action.payload.data.datetime)) {
+        return {
+          ...state,
+          list: [...state.list, { ...action.payload.data }],
+          modalVisible: false,
+        };
+      }
       return {
         ...state,
         modalVisible: false,
@@ -61,6 +69,22 @@ export default function todo(state = initialState, action) {
       return {
         ...state,
         modalVisible: false,
+      };
+    case Types.TODO_REMOVE_REQUEST:
+      return {
+        ...state,
+        refreshing: true,
+      };
+    case Types.TODO_REMOVE_SUCCESS:
+      return {
+        ...state,
+        list: state.list.filter(item => item.id !== action.payload.id),
+        refreshing: false,
+      };
+    case Types.TODO_REMOVE_ERROR:
+      return {
+        ...state,
+        refreshing: false,
       };
     default:
       return state;
@@ -100,14 +124,33 @@ export const Creators = {
     },
   }),
 
-  todoNewSuccess: data => ({
+  todoNewSuccess: (dateActive, data) => ({
     type: Types.TODO_NEW_SUCCESS,
     payload: {
+      dateActive,
       data,
     },
   }),
 
   todoNewError: () => ({
     type: Types.TODO_NEW_ERROR,
+  }),
+
+  todoRemoveRequest: id => ({
+    type: Types.TODO_REMOVE_REQUEST,
+    payload: {
+      id,
+    },
+  }),
+
+  todoRemoveSuccess: id => ({
+    type: Types.TODO_REMOVE_SUCCESS,
+    payload: {
+      id,
+    },
+  }),
+
+  todoRemoveError: () => ({
+    type: Types.TODO_REMOVE_ERROR,
   }),
 };

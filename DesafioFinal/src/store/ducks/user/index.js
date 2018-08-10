@@ -74,6 +74,8 @@ export default function user(state = initialState, action) {
         userAuth: true,
         token: action.payload.token,
         refreshToken: action.payload.refreshToken,
+        name: action.payload.name,
+        phone: action.payload.phone,
       };
     case Types.USER_AUTH_ERROR:
       return {
@@ -81,8 +83,10 @@ export default function user(state = initialState, action) {
         userAuth: false,
       };
     case Types.USER_UPDATE_SUCCESS:
+      console.log(action);
       return {
         ...state,
+        name: action.payload.name,
       };
     default:
       return state;
@@ -143,15 +147,37 @@ export const Creators = {
     },
   }),
 
-  userAuthSuccess: (token, refreshToken) => ({
+  userAuthSuccess: (token, refreshToken, name, phone) => ({
     type: Types.USER_AUTH_SUCCESS,
     payload: {
       token,
       refreshToken,
+      name,
+      phone,
     },
   }),
 
   userAuthError: () => ({
     type: Types.USER_AUTH_ERROR,
+  }),
+
+  userUpdateRequest: (name, password, passwordConfirmation) => ({
+    type: Types.USER_UPDATE_REQUEST,
+    payload: {
+      name,
+      password,
+      passwordConfirmation,
+    },
+  }),
+
+  userUpdateSuccess: name => ({
+    type: Types.USER_UPDATE_SUCCESS,
+    payload: {
+      name,
+    },
+  }),
+
+  userUpdateError: () => ({
+    type: Types.USER_UPDATE_ERROR,
   }),
 };

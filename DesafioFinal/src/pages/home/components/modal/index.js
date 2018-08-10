@@ -34,7 +34,14 @@ class Modal extends Component {
     const { visible, loading } = this.props;
     const { dateTime, title, description } = this.state;
     return (
-      <ModalReact transparent visible={visible} animationType="fade" onRequestClose={() => {}}>
+      <ModalReact
+        transparent
+        visible={visible}
+        animationType="fade"
+        onRequestClose={() => {
+          this.props.todoModalClose();
+        }}
+      >
         <View style={styles.container}>
           <View style={styles.box}>
             <View style={styles.header}>

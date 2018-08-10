@@ -20,7 +20,7 @@ export const Stack = createStackNavigator(
     Profile: { screen: Profile },
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Identification',
     navigationOptions: {
       headerStyle: {
         backgroundColor: colors.purple,

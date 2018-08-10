@@ -14,7 +14,6 @@ const initialState = Immutable({
 export default function notification(state = initialState, action) {
   switch (action.type) {
     case Types.NOTIFICATION_SHOW:
-      console.log(action.payload);
       return {
         ...state,
         show: true,
